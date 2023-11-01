@@ -1,0 +1,60 @@
+@font-face {
+    font-family: 'Albertus Nova';
+    src: url('AlbertusNovaBlack.eot');
+    src: local('Albertus Nova Black'), local('AlbertusNovaBlack'),
+        url('AlbertusNovaBlack.eot?#iefix') format('embedded-opentype'),
+        url('AlbertusNovaBlack.woff2') format('woff2'),
+        url('AlbertusNovaBlack.woff') format('woff'),
+        url('AlbertusNovaBlack.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Albertus Nova';
+    src: url('AlbertusNovaLight.eot');
+    src: local('Albertus Nova Light'), local('AlbertusNovaLight'),
+        url('AlbertusNovaLight.eot?#iefix') format('embedded-opentype'),
+        url('AlbertusNovaLight.woff2') format('woff2'),
+        url('AlbertusNovaLight.woff') format('woff'),
+        url('AlbertusNovaLight.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Albertus Nova';
+    src: url('AlbertusNovaThin.eot');
+    src: local('Albertus Nova Thin'), local('AlbertusNovaThin'),
+        url('AlbertusNovaThin.eot?#iefix') format('embedded-opentype'),
+        url('AlbertusNovaThin.woff2') format('woff2'),
+        url('AlbertusNovaThin.woff') format('woff'),
+        url('AlbertusNovaThin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Albertus Nova';
+    src: url('AlbertusNova.eot');
+    src: local('Albertus Nova'), local('AlbertusNova'),
+        url('AlbertusNova.eot?#iefix') format('embedded-opentype'),
+        url('AlbertusNova.woff2') format('woff2'),
+        url('AlbertusNova.woff') format('woff'),
+        url('AlbertusNova.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Albertus Nova';
+    src: url('AlbertusNova-Bold.eot');
+    src: local('Albertus Nova Bold'), local('AlbertusNova-Bold'),
+        url('AlbertusNova-Bold.eot?#iefix') format('embedded-opentype'),
+        url('AlbertusNova-Bold.woff2') format('woff2'),
+        url('AlbertusNova-Bold.woff') format('woff'),
+        url('AlbertusNova-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
