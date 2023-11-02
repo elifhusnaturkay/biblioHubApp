@@ -66,11 +66,11 @@ flutter:
   fonts:
     - family: AlbertusNova
       fonts:
-        - asset: assets/fonts/AlbertusNova/AlbertusNova-Bold.ttf
-        - asset: assets/fonts/AlbertusNova/AlbertusNova.ttf
-        - asset: assets/fonts/AlbertusNova/AlbertusNovaBlack.ttf
-        - asset: assets/fonts/AlbertusNova/AlbertusNovaLight.ttf
-        - asset: assets/fonts/AlbertusNova/AlbertusNovaThin.ttf
+        - asset: assets/fonts/albertusNova/AlbertusNova-Bold.ttf 
+        - asset: assets/fonts/albertusNova/AlbertusNova.ttf 
+        - asset: assets/fonts/albertusNova/AlbertusNovaBlack.ttf 
+        - asset: assets/fonts/albertusNova/AlbertusNovaLight.ttf 
+        - asset: assets/fonts/albertusNova/AlbertusNovaThin.ttf
 
     - family: ClearSans
       fonts:
