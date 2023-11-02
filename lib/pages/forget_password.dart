@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:kutuphaneapp/pages/category_page.dart';
 import 'package:kutuphaneapp/pages/forget_password.dart';
@@ -15,7 +17,6 @@ class _LoginPageScreenState extends State<NewPassword> {
   final bool selected = false;
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
     var backgroundColor = Color.fromARGB(255, 249, 248, 245);
     var themeColor = Color(0xFF854700);
     return SafeArea(
@@ -24,10 +25,7 @@ class _LoginPageScreenState extends State<NewPassword> {
           elevation: 0,
           backgroundColor: backgroundColor,
           leading: Container(
-            padding: EdgeInsets.only(
-                left: size.height * 0.09,
-                top: size.height * 0.0135,
-                right: size.height * 0.09),
+            padding: EdgeInsets.only(left: 60, top: 10, right: 60),
             child: Icon(
               Icons.account_circle_rounded,
               color: themeColor,
@@ -36,14 +34,15 @@ class _LoginPageScreenState extends State<NewPassword> {
           ),
           title: Container(
             padding: EdgeInsets.only(
-                left: size.height * 0.06,
-                top: size.height * 0.03,
-                right: size.height * 0.05),
+              left: 40,
+              top: 25,
+              right: 40,
+            ),
             child: const Text(
               "BiblioHub",
               style: TextStyle(
-                fontSize: 50,
                 color: Color(0xFF854700),
+                fontSize: 50,
               ),
             ),
           ),
