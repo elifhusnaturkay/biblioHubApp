@@ -24,7 +24,8 @@ class _LoginPageScreenState extends State<NewAccountPage> {
           elevation: 0,
           backgroundColor: backgroundColor,
           leading: Container(
-            padding: EdgeInsets.only(left: 65),
+            padding: EdgeInsets.only(
+                left: size.height * 0.09, top: size.height * 0.0135),
             child: Icon(
               Icons.account_circle_rounded,
               color: themeColor,
@@ -32,11 +33,13 @@ class _LoginPageScreenState extends State<NewAccountPage> {
             ),
           ),
           title: Container(
-            padding: EdgeInsets.only(left: 50),
+            padding: EdgeInsets.only(
+                left: size.height * 0.06,
+                top: size.height * 0.03,
+                right: size.height * 0.05),
             child: const Text(
               "BiblioHub",
               style: TextStyle(
-                //fontFamily: "AlbertusNovaBlack",
                 fontSize: 50,
                 color: Color(0xFF854700),
               ),
@@ -58,7 +61,7 @@ class _LoginPageScreenState extends State<NewAccountPage> {
                   customTextFormFieldMaker("E-posta"),
                   customTextFormFieldMaker("Şifre"),
                   customTextFormFieldMaker("Şifre Yeniden"),
-                  customTextFormFieldMaker("Doğrulama sorusu"),
+                  dropDownBoxMaker("Doğrulama sorusu"),
                   customTextFormFieldMaker("Doğrulama sorusu cevabı"),
                   Container(
                     padding: EdgeInsets.only(top: 10.0),
@@ -92,6 +95,7 @@ class _LoginPageScreenState extends State<NewAccountPage> {
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
       child: TextFormField(
+        style: TextStyle(fontWeight: FontWeight.w400),
         maxLength: value,
         decoration: InputDecoration(
           hintText: hintText,
@@ -107,6 +111,43 @@ class _LoginPageScreenState extends State<NewAccountPage> {
       padding: EdgeInsets.only(bottom: 5.0),
       child: CustomTextFormField(
         (boxOfName),
+      ),
+    );
+  }
+
+  dropDownBoxMaker(String? hintText, {int? value}) {
+    const List<String> items = <String>[
+      'Doğrulama sorusu seçin',
+      'İlk evcil hayvanınızın adı',
+      'İlkokul öğretmeninizin adı',
+      'Doğdunuz mahallenin adı',
+      'En sevdiğiniz renk'
+    ];
+    String? selectedItem = 'Doğrulama sorusu seçin';
+    padding:
+    const EdgeInsets.only(
+      bottom: 5.0,
+    );
+    return Container(
+      padding: EdgeInsets.only(top: 10.0, bottom: 5),
+      child: DropdownButtonFormField<String>(
+        decoration: InputDecoration(
+          hintText: hintText,
+          border: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+        ),
+        value: selectedItem,
+        items: items.map((String item) {
+          return DropdownMenuItem<String>(
+            value: item,
+            child: Text(item),
+          );
+        }).toList(),
+        onChanged: (String? newValue) {
+          if (newValue != null) {
+            selectedItem = newValue;
+          }
+        },
       ),
     );
   }
