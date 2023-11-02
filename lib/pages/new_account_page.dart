@@ -34,14 +34,14 @@ class _LoginPageScreenState extends State<NewAccountPage> {
           title: Container(
             padding: EdgeInsets.only(
               left: 40,
-              top: 25,
+              top: 15,
               right: 40,
             ),
             child: const Text(
               "BiblioHub",
               style: TextStyle(
                 color: Color(0xFF854700),
-                fontSize: 50,
+                fontSize: 40,
               ),
             ),
           ),
