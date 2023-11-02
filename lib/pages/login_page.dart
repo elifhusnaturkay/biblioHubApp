@@ -33,14 +33,14 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
           child: SingleChildScrollView(
             child: Padding(
               padding:
-              const EdgeInsets.only(left: 35.0, right: 35.0, top: 30.0),
+                  const EdgeInsets.only(left: 35.0, right: 35.0, top: 30.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
                     "BiblioHub",
                     style: TextStyle(
-                      fontFamily: "AlbertusNova-Bold",
+                      fontFamily: "AlbertusNova",
                       fontSize: 35,
                       color: Color.fromARGB(255, 133, 71, 0),
                     ),
@@ -88,7 +88,7 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                       child: const Text(
                         "Sifremi Unuttum",
                         style:
-                        TextStyle(color: Color.fromARGB(255, 133, 71, 0)),
+                            TextStyle(color: Color.fromARGB(255, 133, 71, 0)),
                       ),
                     ),
                   ),
