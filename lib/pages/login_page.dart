@@ -3,6 +3,7 @@ import 'package:kutuphaneapp/pages/category_page.dart';
 import 'package:kutuphaneapp/pages/forget_password.dart';
 import 'package:kutuphaneapp/pages/login_page.dart';
 import 'package:kutuphaneapp/pages/new_account_page.dart';
+import 'package:kutuphaneapp/pages/profile_page.dart';
 
 import 'category_page.dart';
 import 'forget_password.dart';
@@ -118,7 +119,20 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                               builder: (context) => (NewAccountPage()),
                             ));
                       },
-                      child: Text("Hesabım Yok"))
+                      child: Text("Hesabım Yok")),
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromARGB(255, 179, 179, 68),
+                        shape: StadiumBorder(),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => (ProfilePage()),
+                            ));
+                      },
+                      child: Text("profilim"))
                 ],
               ),
             ),
@@ -136,7 +150,7 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
         decoration: InputDecoration(
           hintText: hintText,
           border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+              borderRadius: BorderRadius.all(Radius.circular(25.0))),
         ),
       ),
     );

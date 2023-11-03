@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kutuphaneapp/pages/content_page.dart';
+import 'package:kutuphaneapp/pages/profile_page.dart';
 import 'package:scaled_list/scaled_list.dart';
 
 class CategoryPage extends StatelessWidget {
@@ -50,6 +51,7 @@ class CategoryPage extends StatelessWidget {
               },
             ),
           ),
+        
         ));
   }
 

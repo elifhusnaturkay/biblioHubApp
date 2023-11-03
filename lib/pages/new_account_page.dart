@@ -100,7 +100,7 @@ class _LoginPageScreenState extends State<NewAccountPage> {
         decoration: InputDecoration(
           hintText: hintText,
           border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+              borderRadius: BorderRadius.all(Radius.circular(25.0))),
         ),
       ),
     );
@@ -134,7 +134,7 @@ class _LoginPageScreenState extends State<NewAccountPage> {
         decoration: InputDecoration(
           hintText: hintText,
           border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+              borderRadius: BorderRadius.all(Radius.circular(25.0))),
         ),
         value: selectedItem,
         items: items.map((String item) {
