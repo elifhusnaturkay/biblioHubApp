@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kutuphaneapp/pages/add_book_page.dart';
 import 'package:kutuphaneapp/pages/category_page.dart';
 import 'package:kutuphaneapp/pages/forget_password.dart';
 import 'package:kutuphaneapp/pages/login_page.dart';
@@ -132,7 +133,20 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                               builder: (context) => (ProfilePage()),
                             ));
                       },
-                      child: Text("profilim"))
+                      child: Text("profilim")),
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromARGB(255, 179, 179, 68),
+                        shape: StadiumBorder(),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => (AddBook()),
+                            ));
+                      },
+                      child: Text("kitap ekle"))
                 ],
               ),
             ),
