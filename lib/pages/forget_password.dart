@@ -1,8 +1,4 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:kutuphaneapp/pages/category_page.dart';
-import 'package:kutuphaneapp/pages/forget_password.dart';
 import 'package:kutuphaneapp/pages/login_page.dart';
 
 class NewPassword extends StatefulWidget {
@@ -17,15 +13,15 @@ class _LoginPageScreenState extends State<NewPassword> {
   final bool selected = false;
   @override
   Widget build(BuildContext context) {
-    var backgroundColor = Color.fromARGB(255, 249, 248, 245);
-    var themeColor = Color(0xFF854700);
+    var backgroundColor = const Color.fromARGB(255, 249, 248, 245);
+    var themeColor = const Color(0xFF854700);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
           backgroundColor: backgroundColor,
           leading: Container(
-            padding: EdgeInsets.only(left: 60, top: 10, right: 60),
+            padding: const EdgeInsets.only(left: 60, top: 10, right: 60),
             child: Icon(
               Icons.account_circle_rounded,
               color: themeColor,
@@ -33,7 +29,7 @@ class _LoginPageScreenState extends State<NewPassword> {
             ),
           ),
           title: Container(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               left: 40,
               top: 15,
               right: 40,
@@ -48,7 +44,7 @@ class _LoginPageScreenState extends State<NewPassword> {
           ),
         ),
         body: Container(
-          color: Color(0xF9F8F5),
+          color: const Color(0x00f9f8f5),
           height: double.infinity,
           width: double.infinity,
           child: SingleChildScrollView(
@@ -68,22 +64,23 @@ class _LoginPageScreenState extends State<NewPassword> {
                   customTextFormFieldMaker("Şifre"),
                   customTextFormFieldMaker("Şifre Yeniden"),
                   Container(
-                    padding: EdgeInsets.only(top: 10.0),
+                    padding: const EdgeInsets.only(top: 10.0),
                     width: 180,
                     height: 60,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 179, 179, 68),
-                        shape: StadiumBorder(),
+                        backgroundColor:
+                            const Color.fromARGB(255, 179, 179, 68),
+                        shape: const StadiumBorder(),
                       ),
                       onPressed: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => LoginPageScreen(),
+                              builder: (context) => const LoginPageScreen(),
                             ));
                       },
-                      child: Text("Şifremi Güncelle"),
+                      child: const Text("Şifremi Güncelle"),
                     ),
                   ),
                 ],
@@ -95,15 +92,16 @@ class _LoginPageScreenState extends State<NewPassword> {
     );
   }
 
+  // ignore: non_constant_identifier_names
   CustomTextFormField(String? hintText, {int? value}) {
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
       child: TextFormField(
-        style: TextStyle(fontWeight: FontWeight.w400),
+        style: const TextStyle(fontWeight: FontWeight.w400),
         maxLength: value,
         decoration: InputDecoration(
           hintText: hintText,
-          border: OutlineInputBorder(
+          border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(25.0))),
         ),
       ),
@@ -112,7 +110,7 @@ class _LoginPageScreenState extends State<NewPassword> {
 
   customTextFormFieldMaker(String boxOfName) {
     return Container(
-      padding: EdgeInsets.only(bottom: 5.0),
+      padding: const EdgeInsets.only(bottom: 5.0),
       child: CustomTextFormField(
         (boxOfName),
       ),
@@ -128,12 +126,11 @@ class _LoginPageScreenState extends State<NewPassword> {
       'En sevdiğiniz renk'
     ];
     String? selectedItem = 'Doğrulama sorusu seçin';
-    padding:
     const EdgeInsets.only(
       bottom: 5.0,
     );
     return Container(
-      padding: EdgeInsets.only(top: 10.0, bottom: 5),
+      padding: const EdgeInsets.only(top: 10.0, bottom: 5),
       child: DropdownButtonFormField<String>(
         decoration: InputDecoration(
           hintText: hintText,

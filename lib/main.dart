@@ -1,36 +1,27 @@
-import 'package:kutuphaneapp/pages/login_page.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:kutuphaneapp/Constants/constants.dart';
 import 'package:kutuphaneapp/pages/login_page.dart';
 
-class MyAppTheme {
-  static ThemeData myTheme = ThemeData(
-    primaryColor: Color.fromARGB(255, 179, 179, 68),
-    backgroundColor: Color.fromARGB(255, 249, 248, 245),
-    fontFamily: 'AlbertusNova',
-    textTheme: const TextTheme(
-      bodyText1: TextStyle(
-          fontFamily: 'AlbertusNova', color: Color(0x854700), fontSize: 17.0),
-      headline1: TextStyle(
-        fontFamily: 'AlbertusNova',
-        color: Color.fromARGB(255, 84, 112, 8),
-        fontSize: 24.0,
-      ),
-      // Other text styles can be defined here.
-    ),
-  );
-}
-
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  await FirebaseAppCheck.instance.activate(
+      androidProvider: AndroidProvider.playIntegrity,
+      appleProvider: AppleProvider.deviceCheck);
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: MyAppTheme.myTheme,
-      home: KutuphaneApp(),
+      theme: Constants.myTheme,
+      home: const KutuphaneApp(),
     );
   }
 }
@@ -40,7 +31,7 @@ class KutuphaneApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: LoginPageScreen(),
     );
   }

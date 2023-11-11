@@ -2,7 +2,7 @@ name: kutuphaneapp
 description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.1.4 <4.0.0'
+  sdk: ">=3.1.4 <4.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -31,11 +31,19 @@ dependencies:
   flutter:
     sdk: flutter
 
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   scaled_list: ^2.0.0
+  firebase_auth: ^4.12.1
+  firebase_core: ^2.21.0
+  cloud_firestore: ^4.12.2
+  mysql1: ^0.20.0
+  image_picker: ^1.0.4
+  firebase_storage: ^11.5.0
+  firebase_database: ^10.3.4
+  firebase_app_check: ^0.2.1+4
+  recaptcha_enterprise_flutter: ^18.3.0
 
 dev_dependencies:
   flutter_test:
@@ -53,7 +61,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -66,17 +73,16 @@ flutter:
   fonts:
     - family: AlbertusNova
       fonts:
-        - asset: assets/fonts/albertusNova/AlbertusNova-Bold.ttf 
-        - asset: assets/fonts/albertusNova/AlbertusNova.ttf 
-        - asset: assets/fonts/albertusNova/AlbertusNovaBlack.ttf 
-        - asset: assets/fonts/albertusNova/AlbertusNovaLight.ttf 
+        - asset: assets/fonts/albertusNova/AlbertusNova-Bold.ttf
+        - asset: assets/fonts/albertusNova/AlbertusNova.ttf
+        - asset: assets/fonts/albertusNova/AlbertusNovaBlack.ttf
+        - asset: assets/fonts/albertusNova/AlbertusNovaLight.ttf
         - asset: assets/fonts/albertusNova/AlbertusNovaThin.ttf
 
     - family: ClearSans
       fonts:
         - asset: assets/fonts/clear-sans/ClearSans-Regular.ttf
         - asset: assets/fonts/clear-sans/ClearSans-Italic.ttf
-
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

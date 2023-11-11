@@ -1,14 +1,10 @@
+// ignore_for_file: non_constant_identifier_names
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:kutuphaneapp/pages/add_book_page.dart';
 import 'package:kutuphaneapp/pages/category_page.dart';
 import 'package:kutuphaneapp/pages/forget_password.dart';
-import 'package:kutuphaneapp/pages/login_page.dart';
 import 'package:kutuphaneapp/pages/new_account_page.dart';
-import 'package:kutuphaneapp/pages/profile_page.dart';
-
-import 'category_page.dart';
-import 'forget_password.dart';
-import 'new_account_page.dart';
 
 class LoginPageScreen extends StatefulWidget {
   const LoginPageScreen({super.key});
@@ -18,14 +14,24 @@ class LoginPageScreen extends StatefulWidget {
 }
 
 class _LoginPageScreenState extends State<LoginPageScreen> {
+  late TextEditingController MailData;
+  late TextEditingController LoginPassword;
   //ScreenUtil
   final bool selected = false;
+  late FirebaseAuth auth;
+  @override
+  void initState() {
+    super.initState();
+    auth = FirebaseAuth.instance;
+    MailData = TextEditingController();
+    LoginPassword = TextEditingController();
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    var backgroundColor = Color.fromARGB(255, 249, 248, 245);
-    var themeColor = Color(0xFF854700);
-    var primaryColor = Color.fromARGB(255, 219, 117, 0);
+    var backgroundColor = const Color.fromARGB(255, 249, 248, 245);
+    var primaryColor = const Color.fromARGB(255, 219, 117, 0);
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -47,7 +53,7 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                       color: Color.fromARGB(255, 133, 71, 0),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     height: size.height * 0.4,
                     width: size.width * 0.4,
                     child: CircleAvatar(
@@ -65,18 +71,17 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.only(bottom: 5.0),
-                    child: CustomTextFormField(
-                      ("Kullanıcı Adı veya E-mail"),
-                    ),
+                    padding: const EdgeInsets.only(bottom: 5.0),
+                    child: CustomTextFormField("E-mail", MailData),
                   ),
                   const Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
+                    padding: EdgeInsets.only(left: 8.0),
                     child: Align(
                       alignment: Alignment.topLeft,
                     ),
                   ),
-                  CustomTextFormField("Şifre"),
+                  CustomTextFormField("Şifre", LoginPassword,
+                      obscureText: true),
                   Align(
                     alignment: Alignment.topRight,
                     child: TextButton(
@@ -84,7 +89,7 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => NewPassword(),
+                              builder: (context) => const NewPassword(),
                             ));
                       },
                       child: const Text(
@@ -96,22 +101,49 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 179, 179, 68),
-                      shape: StadiumBorder(),
+                      backgroundColor: const Color.fromARGB(255, 179, 179, 68),
+                      shape: const StadiumBorder(),
                     ),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CategoryPage(),
-                          ));
+                    onPressed: () async {
+                      try {
+                        var userCredential =
+                            await auth.signInWithEmailAndPassword(
+                          email: MailData.text,
+                          password: LoginPassword.text,
+                        );
+
+                        if (userCredential.user != null) {
+                          // Kullanıcı başarıyla giriş yaptı.
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CategoryPage(),
+                            ),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                  "Giriş başarısız. Kullanıcı bulunamadı."),
+                            ),
+                          );
+                        }
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                                "Giriş başarısız. Kullanıcı adı veya şifre hatalı."),
+                          ),
+                        );
+                      }
                     },
-                    child: Text("Giris Yap"),
+                    child: const Text("Giriş Yap"),
                   ),
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 179, 179, 68),
-                        shape: StadiumBorder(),
+                        backgroundColor:
+                            const Color.fromARGB(255, 179, 179, 68),
+                        shape: const StadiumBorder(),
                       ),
                       onPressed: () {
                         Navigator.push(
@@ -120,33 +152,7 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                               builder: (context) => (NewAccountPage()),
                             ));
                       },
-                      child: Text("Hesabım Yok")),
-                  ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 179, 179, 68),
-                        shape: StadiumBorder(),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => (ProfilePage()),
-                            ));
-                      },
-                      child: Text("profilim")),
-                  ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 179, 179, 68),
-                        shape: StadiumBorder(),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => (AddBook()),
-                            ));
-                      },
-                      child: Text("kitap ekle"))
+                      child: const Text("Hesabım Yok")),
                 ],
               ),
             ),
@@ -156,14 +162,17 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
     );
   }
 
-  CustomTextFormField(String? hintText, {int? value}) {
+  CustomTextFormField(String? hintText, TextEditingController controller,
+      {int? value, bool obscureText = false}) {
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
       child: TextFormField(
+        controller: controller,
+        obscureText: obscureText,
         maxLength: value,
         decoration: InputDecoration(
           hintText: hintText,
-          border: OutlineInputBorder(
+          border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(25.0))),
         ),
       ),

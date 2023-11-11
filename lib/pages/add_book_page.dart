@@ -1,28 +1,86 @@
-import 'dart:ffi';
+import 'dart:io';
+import 'dart:typed_data';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:kutuphaneapp/pages/login_page.dart';
+import 'package:kutuphaneapp/services/db_services.dart';
 
 class AddBook extends StatefulWidget {
-  const AddBook({super.key});
+  const AddBook({Key? key}) : super(key: key);
 
   @override
-  State<AddBook> createState() => _LoginPageScreenState();
+  State<AddBook> createState() => _AddBookState();
 }
 
-class _LoginPageScreenState extends State<AddBook> {
-  //ScreenUtil
-  final bool selected = false;
+class _AddBookState extends State<AddBook> {
+  TextEditingController kitapTuruController = TextEditingController();
+  MaterialStatesController? kitapFotoController = MaterialStatesController();
+  TextEditingController kitapAdiController = TextEditingController();
+  TextEditingController kitapAciklamaController = TextEditingController();
+  TextEditingController sayfaSayisiController = TextEditingController();
+  TextEditingController yazarAdiController = TextEditingController();
+  Uint8List? _image;
+  File? selectedIMage;
+  Future<void> uploadAndSaveImage() async {
+    final pickedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (pickedImage != null) {
+      final File imageFile = File(pickedImage.path);
+
+      try {
+        final imageUrl = await uploadImageToFirebaseStorage(imageFile);
+
+        if (imageUrl != null) {
+          // Görsel başarıyla yüklendi, kullanıcıya bildirim gösterin veya işlemi tamamlayın.
+          print('Görsel başarıyla yüklendi. URL: $imageUrl');
+          // İlerleme çubuğu veya başka bir bildirim mekanizması ekleyebilirsiniz.
+        } else {
+          // URL alınamadı, kullanıcıya hata mesajı gösterin.
+          print('Görsel yükleme hatası: URL alınamadı.');
+          // Hata mesajını göstermek için bir snackbar veya alert dialog kullanabilirsiniz.
+        }
+      } catch (e) {
+        // Görsel yükleme hatası, kullanıcıya hata mesajı gösterin.
+        print('Görsel yükleme hatası: $e');
+        // Hata mesajını göstermek için bir snackbar veya alert dialog kullanabilirsiniz.
+      }
+    }
+  }
+
+  Future<String?> uploadImageToFirebaseStorage(File imageFile) async {
+    try {
+      final firebase_storage.Reference storageReference = firebase_storage
+          .FirebaseStorage.instance
+          .ref()
+          .child('images')
+          .child('image_${DateTime.now().millisecondsSinceEpoch}.jpg');
+
+      final firebase_storage.UploadTask uploadTask =
+          storageReference.putFile(imageFile);
+
+      await uploadTask.whenComplete(() => null);
+
+      final String imageUrl = await storageReference.getDownloadURL();
+      return imageUrl;
+    } catch (e) {
+      print('Görsel yükleme hatası: $e');
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    var backgroundColor = Color.fromARGB(255, 249, 248, 245);
-    var themeColor = Color(0xFF854700);
+    var backgroundColor = const Color.fromARGB(255, 249, 248, 245);
+    var themeColor = const Color(0xFF854700);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
           backgroundColor: backgroundColor,
           leading: Container(
-            padding: EdgeInsets.only(left: 60, top: 10, right: 60),
+            padding: const EdgeInsets.only(left: 60, top: 10, right: 60),
             child: Icon(
               Icons.account_circle_rounded,
               color: themeColor,
@@ -30,7 +88,7 @@ class _LoginPageScreenState extends State<AddBook> {
             ),
           ),
           title: Container(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               left: 40,
               top: 15,
               right: 40,
@@ -45,7 +103,7 @@ class _LoginPageScreenState extends State<AddBook> {
           ),
         ),
         body: Container(
-          color: Color(0xF9F8F5),
+          color: const Color(0xF9F8F5),
           height: double.infinity,
           width: double.infinity,
           child: SingleChildScrollView(
@@ -62,29 +120,109 @@ class _LoginPageScreenState extends State<AddBook> {
                     ),
                   ),
                   dropDownBoxMaker("Kitap Türü"),
-                  customTextFormFieldMaker("Kitap Adı"),
-                  customTextFormFieldMaker("Sayfa Sayısı"),
-                  customTextFormFieldMaker("Kitap Açıklaması"),
-                  customTextFormFieldMaker("Yazar Adı"),
-                  dateBoxMaker("Okunma Başlama Tarihi"),
-                  dateBoxMaker("Okunma Bitiş Tarihi"),
+                  InkWell(
+                    statesController: kitapFotoController,
+                    onTap: () {
+                      showImagePickerOption(context);
+                    },
+                    child: Card(
+                      shape: const OutlineInputBorder(
+                        borderSide: BorderSide(width: 0.4),
+                      ),
+                      color: const Color.fromARGB(255, 249, 248, 245),
+                      child: selectedIMage != null
+                          ? Image.file(
+                              selectedIMage!,
+                              width: 80,
+                              height: 80,
+                              fit: BoxFit.cover,
+                            )
+                          : Row(
+                              children: [
+                                Container(
+                                  width: 80,
+                                  height: 80,
+                                  decoration: const BoxDecoration(
+                                    color: Colors.blue,
+                                    shape: BoxShape.rectangle,
+                                  ),
+                                  child: const Center(
+                                    child: Icon(
+                                      Icons.add,
+                                      size: 50,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                const Text("Kitap Fotoğrafı"),
+                              ],
+                            ),
+                    ),
+                  ),
+                  customTextFormFieldMaker("Kitap Adı", kitapAdiController),
+                  customTextFormFieldMaker(
+                      "Sayfa Sayısı", sayfaSayisiController),
+                  customTextFormFieldMaker(
+                      "Kitap Açıklaması", kitapAciklamaController),
+                  customTextFormFieldMaker("Yazar Adı", yazarAdiController),
                   Container(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     width: 180,
                     height: 60,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 179, 179, 68),
-                        shape: StadiumBorder(),
+                        backgroundColor:
+                            const Color.fromARGB(255, 179, 179, 68),
+                        shape: const StadiumBorder(),
                       ),
-                      onPressed: () {
+                      onPressed: () async {
+                        // Kullanıcı tarafından girilen verileri alın
+                        final kitapTuru = kitapTuruController.text;
+                        final kitapAdi = kitapAdiController.text;
+                        final sayfaSayisi = sayfaSayisiController.text;
+                        final kitapAciklama = kitapAciklamaController.text;
+                        final yazarAdi = yazarAdiController.text;
+
+                        // Kullanıcının Firebase UID'sini alın (örneğin: burada kullanıcı girişi yapılacak)
+                        final userId = 'KULLANICININ_UID_SI';
+
+                        // Görseli Firebase Storage'a yükle
+                        final imageUrl =
+                            await uploadImageToFirebaseStorage(selectedIMage!);
+
+                        // DB sınıfına verileri ileterek kitap eklemesini yapın
+                        final db = DB(); // DB sınıfının bir örneğini oluşturun
+                        await db.connect(); // Veritabanı bağlantısını başlatın
+                        final kitapId = await db.addBookFromUserInput(
+                          kitapTuru: kitapTuru,
+                          kitapAdi: kitapAdi,
+                          sayfaSayisi: sayfaSayisi,
+                          kitapAciklama: kitapAciklama,
+                          yazarAdi: yazarAdi,
+                          userId: userId,
+                        );
+                        await db.close(); // Veritabanı bağlantısını kapatın
+
+                        if (kitapId != null) {
+                          print('Yeni eklenen kitabın kimliği: $kitapId');
+                          // Kullanıcıya başarı mesajı gösterin.
+                          // Örneğin: ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Kitap başarıyla eklendi')));
+                        } else {
+                          print('Kitap eklenirken bir hata oluştu.');
+                          // Kullanıcıya hata mesajı gösterin.
+                          // Örneğin: ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Kitap eklenirken bir hata oluştu')));
+                        }
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => LoginPageScreen(),
-                            ));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LoginPageScreen(),
+                          ),
+                        );
                       },
-                      child: Text("Kitap Ekle"),
+                      child: const Text("Kitap Ekle"),
                     ),
                   ),
                 ],
@@ -96,31 +234,113 @@ class _LoginPageScreenState extends State<AddBook> {
     );
   }
 
-  CustomTextFormField(String? hintText, {int? value}) {
+  Future _pickImageFromGallery() async {
+    final returnImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (returnImage == null) return;
+    setState(() {
+      selectedIMage = File(returnImage.path);
+      _image = File(returnImage.path).readAsBytesSync();
+    });
+    Navigator.of(context).pop(); //close the model sheet
+  }
+
+  Future _pickImageFromCamera() async {
+    final returnImage =
+        await ImagePicker().pickImage(source: ImageSource.camera);
+    if (returnImage == null) return;
+    setState(() {
+      selectedIMage = File(returnImage.path);
+      _image = File(returnImage.path).readAsBytesSync();
+    });
+    Navigator.of(context).pop();
+  }
+
+  void showImagePickerOption(BuildContext context) {
+    showModalBottomSheet(
+      backgroundColor: Colors.blue[100],
+      context: context,
+      builder: (builder) {
+        return Padding(
+          padding: const EdgeInsets.all(18.0),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height / 4.5,
+            child: Row(
+              children: [
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      _pickImageFromGallery().then((value) {
+                        if (value == null) {
+                          // Kullanıcı galeriden herhangi bir görsel seçmedi.
+                          // Burada bir işlem yapabilirsiniz.
+                        }
+                      });
+                    },
+                    child: const SizedBox(
+                      child: Column(
+                        children: [
+                          Icon(
+                            Icons.image,
+                            size: 70,
+                          ),
+                          Text("Gallery")
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      _pickImageFromCamera().then((value) {
+                        if (value == null) {
+                          // Kullanıcı kameradan herhangi bir görsel çekmedi.
+                          // Burada bir işlem yapabilirsiniz.
+                        }
+                      });
+                    },
+                    child: const SizedBox(
+                      child: Column(
+                        children: [
+                          Icon(
+                            Icons.camera_alt,
+                            size: 70,
+                          ),
+                          Text("Camera")
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget customTextFormFieldMaker(
+    String hintText,
+    TextEditingController controller,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
       child: TextFormField(
-        style: TextStyle(fontWeight: FontWeight.w400),
-        maxLength: value,
+        controller: controller,
+        style: const TextStyle(fontWeight: FontWeight.w400),
         decoration: InputDecoration(
           hintText: hintText,
-          border: OutlineInputBorder(
+          border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(25.0))),
         ),
       ),
     );
   }
 
-  customTextFormFieldMaker(String boxOfName) {
-    return Container(
-      padding: EdgeInsets.only(bottom: 5.0),
-      child: CustomTextFormField(
-        (boxOfName),
-      ),
-    );
-  }
-
-  dropDownBoxMaker(String? hintText, {int? value}) {
+  Widget dropDownBoxMaker(String hintText) {
     const List<String> items = <String>[
       'Kitap türü seçin',
       'ROMAN',
@@ -136,7 +356,7 @@ class _LoginPageScreenState extends State<AddBook> {
       bottom: 5.0,
     );
     return Container(
-      padding: EdgeInsets.only(top: 10.0, bottom: 5),
+      padding: const EdgeInsets.only(top: 10.0, bottom: 5),
       child: DropdownButtonFormField<String>(
         decoration: InputDecoration(
           hintText: hintText,
@@ -154,40 +374,6 @@ class _LoginPageScreenState extends State<AddBook> {
           if (newValue != null) {
             selectedItem = newValue;
           }
-        },
-      ),
-    );
-  }
-
-  dateBoxMaker(String boxOfName) {
-    TextEditingController _dateController = TextEditingController();
-    Future<void> _selectDate() async {
-      DateTime? _picked = await showDatePicker(
-          context: context,
-          initialDate: DateTime.now(),
-          firstDate: DateTime(2000),
-          lastDate: DateTime(2100));
-      if (_picked != null) {
-        setState(() {
-          _dateController.text = _picked.toString().split(" ")[0];
-        });
-      }
-    }
-
-    return Container(
-      padding: EdgeInsets.only(bottom: 5.0, top: 10.0),
-      child: TextField(
-        controller: _dateController,
-        decoration: InputDecoration(
-            labelText: boxOfName,
-            prefixIcon: Icon(Icons.calendar_today),
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(25.0))),
-            focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.black))),
-        readOnly: true,
-        onTap: () {
-          _selectDate();
         },
       ),
     );

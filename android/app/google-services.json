@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "473907884157",
+    "project_id": "kutuphaneapp-c3881",
+    "storage_bucket": "kutuphaneapp-c3881.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:473907884157:android:56bd12a5c7ce909ef0c114",
+        "android_client_info": {
+          "package_name": "com.example.biblio_hub_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNtABg5-d-8PdusuBur7o1NfFZwgMAnTU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
